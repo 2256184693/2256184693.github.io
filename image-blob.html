@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image-Blob</title>
+</head>
+<body>
+    <section>
+        <style>
+            #img{
+                display: block;
+                width: 100%;
+            }
+        </style>
+        <h3>本地上传图片预览功能</h3>
+        <input type="file" name="" id="" onchange="loadFile(event)">
+        <script>
+            const loadFile = evt => {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    const img = document.querySelector('#img');
+                    img.src = reader.result;
+                }
+
+                reader.readAsDataURL(evt.target.files[0]);
+            }
+        </script>
+    </section>
+
+    <section>
+        <h3>假设获取image内容后解密然后展示</h3>
+        <img src="" alt="" id="img1">
+        <script>
+            fetch('https://image1.guazistatic.com/qn200706174925c72003f2be112255728349391579bdc5.jpeg')
+                .then(res => res.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const img = document.querySelector('#img');
+                    img.src = url;
+                })
+        </script>
+    </section>
+    <img src="" alt="" id="img">
+</body>
+</html>

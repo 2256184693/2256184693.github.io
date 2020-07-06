@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test-Js</title>
+</head>
+<body>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <script>
+        var oBoxs = document.getElementsByClassName('box')
+        console.log('盒子', oBoxs);
+        for (var i = 0; i < oBoxs.length; i++) {
+            console.log(`第${i}次循环, 数组长度 ${oBoxs.length}`);
+            oBoxs[i].className = 'container'
+        }
+    </script>
+</body>
+</html>

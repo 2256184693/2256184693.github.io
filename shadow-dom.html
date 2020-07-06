@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow-Dom</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div id="app">
+        <my-component></my-component>
+    </div>
+    <script>
+        class MyComponent extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+            }
+            connectedCallback() {
+                this.shadowRoot.innerHTML = `
+                    <p>This is the shadow root!</p>
+                `;
+            }
+        }
+
+        window.customElements.define('my-component', MyComponent);
+        // let $el = document.createElement('div');
+        // $el.attachShadow({ mode: 'open' });
+    </script>    
+</body>
+</html>

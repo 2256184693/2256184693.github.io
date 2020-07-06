@@ -10,12 +10,21 @@
         .box{
             padding: 50px;
         }
+        .container{
+            width: 400px;
+            height: 400px;
+            background-color: white;
+            float: left;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="box">
         <input type="text" class="text" value="点击Input全选内容">
     </div>
+    <div class="container"></div>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <script>
         $('.text').click(function() {

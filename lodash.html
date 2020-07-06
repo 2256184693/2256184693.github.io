@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lodash</title>
+</head>
+
+<body>
+    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.15/lodash.js"></script>
+    <script>
+        const map = new Map();
+        map.set('key', 'value');
+        map.set('ConardLi', 'code秘密花园');
+
+        const set = new Set();
+        set.add('ConardLi');
+        set.add('code秘密花园');
+
+        const target = {
+            field1: 1,
+            field2: undefined,
+            field3: {
+                child: 'child'
+            },
+            field4: [
+                [2, 3, 5], 4, 8
+            ],
+            empty: null,
+            map,
+            set,
+            bool: new Boolean(true),
+            num: new Number(2),
+            str: new String(2),
+            symbol: Object(Symbol(1)),
+            date: new Date(),
+            reg: /\d+/,
+            error: new Error(),
+            func1: () => {
+                console.log('code秘密花园');
+            },
+            func2: function (a, b) {
+                return a + b;
+            },
+            promise: new Promise((res, rej) => {})
+        };
+
+        var a = _.cloneDeep(target);
+
+        target.func1.x = 1;
+
+        console.log(a.func1.x);
+
+        // var func = () => {
+        //     console.log(1);
+        // }
+
+        // var func1 = _.cloneDeep(func);
+        // console.log('target', func1);
+
+    </script>
+</body>
+
+</html>
