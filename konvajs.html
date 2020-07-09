@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KonvaJs</title>
+    <style>
+        #container{
+            background: repeating-linear-gradient(90deg, rgba(111, 111, 111, .3), transparent 300px);
+        }
+    </style>
 </head>
 
 <body>
@@ -15,7 +20,7 @@
     <script>
         class KonvaBase {
             constructor() {
-                this.base = 100;
+                this.base = 300;
             }
             getPlaceholderPosition(pos) {
                 let base = this.base;
@@ -28,20 +33,38 @@
                     y: isT ? t * base : (t + 1) * base,
                 };
             }
+            adjust(num) {
+                let base = this.base;
+                let radio = Math.floor(num / base);
+                let isUp = num > (radio * base + base / 2);
+                return isUp ? (radio + 1) * base : radio * base;
+            }
         }
 
         class KonvaRect extends KonvaBase {
-            constructor(layer, options) {
+            constructor({
+                stage,
+                layer,
+                dragLayer,
+                transformer
+            }, options) {
                 super();
                 options.x = options.y || 0;
                 options.y = options.y || 0;
+                this.stage = stage;
                 this.layer = layer;
+                this.dragLayer = dragLayer;
+                this.transformer = transformer;
                 this.options = options;
-                this.creatPlaceholder();
+                this.createPlaceholder();
                 this.createInner();
-                this.createTransfomer();
                 this.bindEvents();
                 this.mounted();
+            }
+
+            draw() {
+                this.layer.draw();
+                this.dragLayer.draw();
             }
 
             createInner() {
@@ -49,35 +72,22 @@
                 this.layer.add(this.inner);
             }
 
-            creatPlaceholder() {
+            createPlaceholder() {
                 let options = {
                     ...this.options,
-                    fill: '#ccc',
+
+                    fill: 'gray',
                 }
                 this.placeholderOptions = options;
                 this.placeholder = new Konva.Rect(options);
                 this.layer.add(this.placeholder);
             }
 
-            createTransfomer() {
-                this.transformer = new Konva.Transformer({
-                    rotateEnabled: false,
-                    enabledAnchors: ['middle-right', 'bottom-center'],
-                    boundBoxFunc: function(oldBox, newBox) {
-                        // console.log(oldBox, newBox);
-                        if(newBox.width < 0) {
-                            return oldBox;
-                        }
-                        return newBox;
-                    }
-                });
-                this.layer.add(this.transformer);
-            }
-
             bindEvents() {
                 let _this = this;
                 this.inner.on('dragstart', function() {
-
+                    _this.inner.zIndex(2001);
+                    _this.stage.draw();
                 });
                 this.inner.on('dragmove', function() {
                     let pos = this.absolutePosition();
@@ -87,55 +97,94 @@
                     if(_pos.x !== _this.placeholderOptions.x || _pos.y !== _this.placeholderOptions.y) {
                         _this.placeholderOptions.x = _pos.x;
                         _this.placeholderOptions.y = _pos.y;
-                        _this.placeholder.absolutePosition({ x: _pos.x, y: _pos.y });
-                        _this.layer.draw();
+                        _this.placeholder.to({ x: _pos.x, y: _pos.y, duration: .1 });
+                        _this.draw();
                     }
                 });
                 this.inner.on('dragend', function() {
-                    _this.inner.absolutePosition({ x: _this.placeholderOptions.x, y: _this.placeholderOptions.y });
-                    _this.layer.draw();
+                    _this.inner.to({ 
+                        x: _this.placeholderOptions.x,
+                        y: _this.placeholderOptions.y,
+                        duration: .2,
+                    });
+                    _this.stage.draw();
                 });
                 this.inner.on('click', function() {
                     _this.transformer.nodes([_this.inner]);
-                    _this.layer.draw();
+                    _this.draw();
+                });
+                this.inner.on('transform', function() {
+                    _this.placeholder.width(_this.adjust(this.scaleX() * this.width()));
+                    _this.placeholder.height(_this.adjust(this.scaleY() * this.height()));
+                });
+                this.inner.on('transformend', function() {
+                    console.log('transform end', _this.placeholder.width(), _this.placeholder.height());
+                    this.to({
+                        width: _this.placeholder.width(),
+                        height: _this.placeholder.height(),
+                        scaleX: 1,
+                        scaleY: 1,
+                        duration: .1
+                    });
+                    _this.draw();
                 });
             }
 
             mounted() {
-                this.layer.draw();
+                this.draw();
             }
         }
         
         // first we need to create a stage
         var stage = new Konva.Stage({
             container: 'container', // id of container <div>
-            width: 1200,
-            height: 800
+            width: 1800,
+            height: 900
         });
 
-
         var layer = new Konva.Layer();
+        const dragLayer = new Konva.Layer();
         // add the layer to the stage
-        stage.add(layer);
+        stage.add(layer, dragLayer);
 
-        var rect = new KonvaRect(layer, {
+        const transformer = new Konva.Transformer({
+            rotateEnabled: false,
+            enabledAnchors: ['bottom-right'],
+            keepRatio: false,
+            boundBoxFunc: function(oldBox, newBox) {
+                // console.log(oldBox, newBox);
+                if(newBox.width < 0) {
+                    return oldBox;
+                }
+                return newBox;
+            }
+        });
+        transformer.zIndex(5001);
+
+        layer.add(transformer);
+
+        var rect = new KonvaRect({
+            stage,
+            layer,
+            dragLayer,
+            transformer
+        }, {
             width: 300,
-            height: 100,
+            height: 300,
             fill: '#ff6701',
             stroke: 'black',
             strokeWidth: 0,
             draggable: true,
-            dragBoundFunc: function(pos) {
-                return {
-                    x: pos.x,
-                    y: pos.y
-                };
-            }
         });
 
-        var other = new KonvaRect(layer, {
-            width: 100,
-            height: 100,
+        var other = new KonvaRect({
+            stage,
+            layer,
+            dragLayer,
+            transformer
+        }, {
+            width: 300,
+            height: 300,
             fill: 'red',
             stroke: 'black',
             strokeWidth: 0,

@@ -9,6 +9,9 @@
 </head>
 <body>
     <div id="app">
+        <pre id="pre">
+            <code id="code" language-html></code>
+        </pre>
         <my-component></my-component>
     </div>
     <script>
@@ -23,7 +26,13 @@
                 `;
             }
         }
-
+        document.getElementById('code').innerText = 
+            `
+                <div>
+                    123    
+                </div>
+            `
+            ;
         window.customElements.define('my-component', MyComponent);
         // let $el = document.createElement('div');
         // $el.attachShadow({ mode: 'open' });
