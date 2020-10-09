@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title><center>Grid Layout - 网格布局</center></title>
+        <style>
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        
+        
+    </head>
+    <body class="vscode-light">
+        <h1 id="centergrid-layout---网格布局center"><center>Grid Layout - 网格布局</center></h1>
+<h2 id="什么是网格布局-查看code">什么是网格布局 <a href="http://127.0.0.1:5500/%E7%BB%BC%E5%90%88%E7%A4%BA%E4%BE%8B.html">查看Code</a></h2>
+<hr>
+<p>用于将页面分割成数个主要区域或者用来定义区域内部元素大小位置和图层之间的关系。网格是一组相交的水平线和垂直线，定义了网格的列和行。</p>
+<p><img src="https://image1.guazistatic.com/qn20072916293180d7f7188dc9672c24f78ea7e978393a.png" alt="Can I Use"></p>
+<p>CSS网格布局有以下特点:</p>
+<ol>
+<li>
+<p>固定和灵活的轨道尺寸</p>
+<blockquote>
+<p>你可以使用固定的轨道尺寸创建网格，比如使用像素单位。你也可以使用比如百分比或者专门为此目的创建的新单位 fr来创建有弹性尺寸的网格。</p>
+</blockquote>
+</li>
+<li>
+<p>项目位置</p>
+<blockquote>
+<p>你可以使用行号、行名或者标定一个网格区域来精确定位元素。网格同时还使用算法来控制未给出明确网格位置的自动定位的元素。</p>
+</blockquote>
+</li>
+<li>
+<p>创建额外的轨道来包含元素</p>
+<blockquote>
+<p>可以使用网格布局定义一个显式网格，但是根据规范它会处理你加在网格外面的内容，当必要时它会自动增加行和列，它会尽可能多的容纳所有的列。</p>
+</blockquote>
+</li>
+<li>
+<p>对齐方式的控制</p>
+<blockquote>
+<p>网格包含对齐特点，以便我们可以控制一旦放置到网格区域中的物体对齐，以及整个网格如何对齐。</p>
+</blockquote>
+</li>
+<li>
+<p>重叠内容的控制</p>
+<blockquote>
+<p>多个元素可以放置在网格单元格中，或者区域可以部分地彼此重叠。然后可以CSS中的 <code>z-index</code> 属性来控制重叠区域显示的优先级。</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h2 id="特殊使用方式">特殊使用方式</h2>
+<hr>
+<ol>
+<li>
+<p>fr单位</p>
+<blockquote>
+<p>轨道可以使用任何长度单位进行定义。 网格还引入了一个另外的长度单位 <code>fr</code> 来帮助我们创建灵活的网格轨道。 <code>1fr</code> 代表网格容器中可用空间的一等份。<code>fr</code> 和其它长度单位混合使用时， <code>fr</code> 的计算是基于其它单位分配后的剩余空间。</p>
+</blockquote>
+</li>
+<li>
+<p>repeat函数</p>
+<blockquote>
+<p>有着多轨道的大型网格可使用 <code>repeat()</code> 函数 来重复部分或整个轨道列表。第一个参数是重复次数，第二个参数是重复内容。</p>
+</blockquote>
+</li>
+<li>
+<p>minmax函数</p>
+<blockquote>
+<p>在设置一个显式的网格或者定义自动创建的行和列的大小的时候，我们也许想给网格一个最小的尺寸，确保他们能扩大到容纳他里面添加的内容。例如，需求行高永远不会缩小到100像素以下，但是如果内容延伸到300像素时的行高也延伸到这个高度。就可以使用网格布局中用minmax()函数来解决这个问题。</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h2 id="重要术语">重要术语</h2>
+<hr>
+<ol>
+<li>
+<p>网格容器</p>
+<blockquote>
+<p>创建一个网格容器的同时，该容器的所有直系子元素都会成为网格子元素（未被标签包裹的文本节点会成为匿名网格项目）。</p>
+</blockquote>
+<pre><code class="language-css"><div>    <span class="hljs-comment">/* block的网格， */</span>
+    <span class="hljs-selector-tag">display</span>: <span class="hljs-selector-tag">grid</span>; 
+    <span class="hljs-comment">/* inline的网格 */</span>
+    <span class="hljs-selector-tag">display</span>: <span class="hljs-selector-tag">inline-grid</span>;
+    <span class="hljs-comment">/* 子网格 - 不可用 */</span>
+    <span class="hljs-selector-tag">display</span>: <span class="hljs-selector-tag">subgrid</span>;
+</div></code></pre>
+</li>
+<li>
+<p>网格项</p>
+<blockquote>
+<p>网格元素的&quot;直系&quot;子元素都是网格项</p>
+</blockquote>
+</li>
+<li>
+<p>网格轨道 <a href="http://127.0.0.1:5500/%E9%9A%90%E5%BC%8F%E7%BD%91%E6%A0%BC.html">查看Code</a></p>
+<blockquote>
+<p>通过 <code>grid-template-columns</code> 和 <code>grid-template-rows</code> 这两个属性我们来定义网格中的行和列。这些属性定义了网格的轨道。一个网格轨道就是网格中任意两条线之间的空间。</p>
+</blockquote>
+<ul>
+<li>
+<p>显式网格：手动定义的网格称之为<strong>显式网格</strong>。</p>
+</li>
+<li>
+<p>隐式网格：如果网格中有更多的网格项，或者网格项被放置在显示网格之外，网格容器就会通过向网格中添加网格线来自动生成隐式的网格轨道。显式网格和这些额外的隐式轨道和网格线则构成了所谓的隐式网格。
+-可以使用 <code>grid-auto-rows</code> 和 <code>grid-auto-columns</code> 来设置 隐式网格的规格。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>网格线 <a href="http://127.0.0.1:5500/%E7%BD%91%E6%A0%BC%E7%BA%BF%E4%BD%BF%E7%94%A8.html">查看Code</a></p>
+<blockquote>
+<p>我们定义网格实际上定义的是网格轨道，而不是网格线。Grid布局会自动创建网格线来方便定位每一个元素。网格线的编号顺序取决于 <strong>文章的书写模式</strong>（比如英文是从左到右书写的，则网格线1 是最左边的线）。<strong>注：负数代表着相反方向的网格线顺序，且不包括隐式轨道。</strong></p>
+</blockquote>
+<blockquote>
+<p>跨轨道放置网格元素：通过 <code>grid-column-start</code> 、 <code>grid-column-end</code> 、<code>grid-row-start</code> 、<code>grid-row-end</code> 四个属性，可以方便地规定子元素的位置。 默认跨度是一个轨道，也就是如果只延伸一个轨道的话，只需要指明开始编号即可。（合并属性 <code>grid-row</code> 和 <code>grid-column</code>：<code>-start</code> 和 <code>-end</code> 之间使用 <code>/</code> 隔开）</p>
+</blockquote>
+<blockquote>
+<p>使用 <code>grid-area：grid-row-start / grid-column-start / grid-row-end /grid-column-end</code> 这个缩略用法可以快速定位。顺序和常用的 <code>margin/padding</code> 有区别。<strong>还可以使用负数，表示从尾部开始计算</strong>。</p>
+</blockquote>
+<blockquote>
+<p>使用span的关键字。一般的方法是用编号来规定位置，使用span则是编号结合跨越轨道数量来规定位置。</p>
+</blockquote>
+<blockquote>
+<p>我们还可以命名网格线来定义网格。定义网格的时候把网格线的名字写在方括号内，多个名字用空格隔开(不一定要全部命名) - (这种方式也可以和序号混合使用)。</p>
+</blockquote>
+<blockquote>
+<p>可以结合 <code>repeat</code> 函数来创建多个相同名字的网格线。使用的时候在名字后面增加一个序号即可区分。</p>
+</blockquote>
+</li>
+<li>
+<p>网格单元格</p>
+<blockquote>
+<p>一个网格单元是在一个网格元素中最小的一个单位。</p>
+</blockquote>
+<blockquote>
+<p>相对于使用网格线来定位，也可以命名网格区域来定位。<a href="http://127.0.0.1:5500/%E5%91%BD%E5%90%8D%E7%BD%91%E6%A0%BC%E5%8C%BA%E5%9F%9F.html">查看Code</a></p>
+</blockquote>
+<blockquote>
+<p>当一个区域的线都由<code>-start</code> 和 <code>-end</code> 作为后缀的话，网格会为区域创建一个名字，名字就是后缀前的单词。反之亦是如此。如果定义一个网格区域，则会隐式的命名周围的网格线。</p>
+</blockquote>
+</li>
+<li>
+<p>网格区域</p>
+<blockquote>
+<p>网格元素可以向着行或者列的方向扩展，创建一个区域。（形状一定是矩形）。</p>
+</blockquote>
+</li>
+<li>
+<p>网格间距</p>
+<blockquote>
+<p>两个网格单元之间的 网格横向间距 或 网格纵向间距 可使用 <code>grid-row-gap</code> he <code>grid-column-gap</code> 属性来创建（合并属性 <code>grid-gap</code>）</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h2 id="网格定位方式-查看code">网格定位方式 <a href="http://127.0.0.1:5500/%E6%9C%89%E5%85%B3%E5%AE%9A%E4%BD%8D.html">查看Code</a></h2>
+<hr>
+<ul>
+<li>
+<p>默认情况下 子项目会在行流向下放置于每一个单元格中，一行一行的放置，这是网格的自动定位。如果显式网格中没有多余行时则会创建一个隐式的新行。此时，隐式的网格尺寸是自适应的，不过可以通过 <code>grid-auto-rows</code> 这个属性来控制隐式网格的大小。</p>
+</li>
+<li>
+<p>可以使用 <code>grid-auto-flow</code> 改变放置的优先流向。</p>
+<blockquote>
+<p>可选值</p>
+</blockquote>
+<ul>
+<li>row(默认值)</li>
+<li>column</li>
+<li>row/column dense</li>
+</ul>
+</li>
+<li>
+<p>网格中，部分项目有着自己明确的位置，而另一些则依赖自动定位。除了我们明确定位过的项目，自动定位项目都会依照DOM中的顺序被网格自动处理。这种情况下经常会因大小不等而出现缺口。在没有逻辑顺序的情况下，我们倾向于创建一种齐整的没有缺口的布局。这时候可以改变网格容器放置流向 <code>grid-auto-flow</code>，这时候就需要使用 <code>dense</code> 关键字了。该关键字定义了填充网格时的稀疏和密集两种不同算法。使用dense时将采用密集算法，将较小项目放置到较早的空缺中。可以应用在图片墙等需求中。</p>
+</li>
+<li>
+<p>当字符串或者文本被直接包含在网格容器中时，它们会被创建为匿名的网格项目。<strong>匿名项目因为无法选中，所以位置全靠自动定位规则来确定，所以可能会出现在网格的不可预期的位置</strong>。</p>
+</li>
+</ul>
+<hr>
+<h2 id="网格中的对齐-查看code">网格中的对齐 <a href="http://127.0.0.1:5500/%E7%BD%91%E6%A0%BC%E5%AF%B9%E9%BD%90.html">查看Code</a></h2>
+<hr>
+<ul>
+<li>
+<p>网格布局共有 <code>Block(Column) Axis</code> 和 <code>Inline(Row) Axis</code> 两种轴。</p>
+</li>
+<li>
+<p>项目对齐方式</p>
+<ul>
+<li>使用 <code>align-items</code> 和 <code>align-self</code> 控制项目在列轴上的对齐。<code>align-items</code>设置在网格容器上，相当于为子网格都设置了 <code>align-self</code> 属性。也可以使用 <code>align-self</code> 个性化设置子网格的对齐方式。<pre><code class="language-css"><div>    <span class="hljs-selector-tag">align-items</span>: <span class="hljs-selector-tag">auto</span>;
+    <span class="hljs-selector-tag">align-items</span>: <span class="hljs-selector-tag">normal</span>;
+    <span class="hljs-selector-tag">align-items</span>: <span class="hljs-selector-tag">start</span>;
+    <span class="hljs-selector-tag">align-items</span>: <span class="hljs-selector-tag">end</span>;
+    <span class="hljs-selector-tag">align-items</span>: <span class="hljs-selector-tag">center</span>;
+    <span class="hljs-selector-tag">align-items</span>: <span class="hljs-selector-tag">stretch</span>;<span class="hljs-comment">/* 默认 */</span>
+    <span class="hljs-selector-tag">align-items</span>: <span class="hljs-selector-tag">baseline</span>;
+    <span class="hljs-selector-tag">align-items</span>: <span class="hljs-selector-tag">first</span> <span class="hljs-selector-tag">baseline</span>;
+    <span class="hljs-selector-tag">align-items</span>: <span class="hljs-selector-tag">last</span> <span class="hljs-selector-tag">baseline</span>;
+</div></code></pre>
+</li>
+<li>在行轴上的对齐与列轴类似。属性 <code>justify-items</code> 和 <code>justify-self</code> 分别与之对应，用法也一样。</li>
+</ul>
+</li>
+<li>
+<p>轨道对齐方式</p>
+<ul>
+<li>
+<p>属性为 <code>align-content</code> 和 <code>justify-content</code> 。</p>
+<pre><code class="language-css"><div>    <span class="hljs-selector-tag">align-content</span>: <span class="hljs-selector-tag">normal</span>;
+    <span class="hljs-selector-tag">align-content</span>: <span class="hljs-selector-tag">start</span>; <span class="hljs-comment">/* 默认 */</span>
+    <span class="hljs-selector-tag">align-content</span>: <span class="hljs-selector-tag">end</span>;
+    <span class="hljs-selector-tag">align-content</span>: <span class="hljs-selector-tag">center</span>;
+    <span class="hljs-selector-tag">align-content</span>: <span class="hljs-selector-tag">stretch</span>;
+    <span class="hljs-selector-tag">align-content</span>: <span class="hljs-selector-tag">space-around</span>;
+    <span class="hljs-selector-tag">align-content</span>: <span class="hljs-selector-tag">space-between</span>;
+    <span class="hljs-selector-tag">align-content</span>: <span class="hljs-selector-tag">space-evenly</span>;
+    <span class="hljs-selector-tag">align-content</span>: <span class="hljs-selector-tag">baseline</span>;
+    <span class="hljs-selector-tag">align-content</span>: <span class="hljs-selector-tag">first</span> <span class="hljs-selector-tag">baseline</span>;
+    <span class="hljs-selector-tag">align-content</span>: <span class="hljs-selector-tag">last</span> <span class="hljs-selector-tag">baseline</span>;
+
+</div></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="其他用法">其他用法</h2>
+<hr>
+<ol>
+<li>
+<p>grid-template</p>
+<blockquote>
+<p>包含了 <code>grid-template-rows</code> 和 <code>grid-template-columns</code> 和 <code>grid-template-areas</code> 三个属性</p>
+</blockquote>
+<ul>
+<li>
+<p>none</p>
+<pre><code class="language-css"><div>    <span class="hljs-selector-tag">grid-template</span>: <span class="hljs-selector-tag">none</span>;
+</div></code></pre>
+</li>
+<li>
+<p>&lt; grid-tempalte-rows &gt; / &lt; grid-template-columns &gt;</p>
+<pre><code class="language-css"><div>    <span class="hljs-selector-tag">grid-template</span>: 100<span class="hljs-selector-tag">px</span> 1<span class="hljs-selector-tag">fr</span> / 50<span class="hljs-selector-tag">px</span> 1<span class="hljs-selector-tag">fr</span>;
+</div></code></pre>
+</li>
+<li>
+<p>[ &lt; line-names &gt;? &lt; string &gt; &lt; track-size &gt;? &lt; line-names &gt;? ]+ [ / &lt; explicit-track-list &gt; ]?</p>
+<pre><code class="language-css"><div>    <span class="hljs-selector-tag">grid-template</span>:  "<span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">a</span>"
+                    "<span class="hljs-selector-tag">b</span> <span class="hljs-selector-tag">b</span> <span class="hljs-selector-tag">b</span>";
+    <span class="hljs-selector-tag">grid-template</span>:  "<span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">a</span>" 20%
+                    "<span class="hljs-selector-tag">b</span> <span class="hljs-selector-tag">b</span> <span class="hljs-selector-tag">b</span>" <span class="hljs-selector-tag">auto</span>;
+    <span class="hljs-selector-tag">grid-template</span>:  <span class="hljs-selector-attr">[header-top]</span> "<span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">a</span>" <span class="hljs-selector-attr">[header-bottom]</span>
+                    <span class="hljs-selector-attr">[main-top]</span> "<span class="hljs-selector-tag">b</span> <span class="hljs-selector-tag">b</span> <span class="hljs-selector-tag">b</span>" <span class="hljs-selector-attr">[main-bottom]</span>
+                    / <span class="hljs-selector-tag">auto</span> 1<span class="hljs-selector-tag">fr</span> <span class="hljs-selector-tag">auto</span>;
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>grid</p>
+<blockquote>
+<p>包含了 <code>grid-template-rows</code> 、 <code>grid-template-columns</code> 、 <code>grid-template-areas</code> 、<code>grid-auto-rows</code> 、<code>grid-auto-columns</code> 、<code>grid-auto-flow</code> 这几个属性。</p>
+</blockquote>
+<blockquote>
+<p>注意：使用 <code>grid</code> 会将 <code>grid-row-gap</code> 和 <code>grid-column-gap</code> 设置为初始值</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h2 id="其他的注意点">其他的注意点</h2>
+<hr>
+<ul>
+<li>
+<p>区别与flex <a href="http://127.0.0.1:5500/%E7%89%B9%E6%AE%8A%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B_%E5%8C%BA%E5%88%AB%E4%BA%8Eflex.html">查看Code</a></p>
+<ol>
+<li>
+<p>弹性盒布局是为一维布局服务的（横向或纵向），而网格布局则为二维布局服务。</p>
+</li>
+<li>
+<p>使用<code>auto-fit</code> 和 <code>auto-fill</code>属性结合 <code>repeat()</code> 函数以及 <code>minmax()</code> 函数，达到类似弹性盒的效果。</p>
+<blockquote>
+<p>auto-fill 更加倾向于用更多的列占满当前行; auto-fit 更加倾向于用少列占满当前行</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li>
+<p>与绝对定位元素结合使用， 照常一样将设置网格容器 <code>position: relative</code>，将需要定位的网格设置<code>position: absolute</code>。<a href="http://127.0.0.1:5500/%E7%BB%93%E5%90%88%E5%AE%9A%E4%BD%8D%E5%85%83%E7%B4%A0.html">查看Code</a></p>
+<ol>
+<li>
+<p>默认情况下，定位的项目不会拉伸成网格大小。</p>
+</li>
+<li>
+<p>定位网格可以使用隐式轨道，但是并不能创建隐式轨道。</p>
+</li>
+<li>
+<p>定位网格不会占用有关自动放置功能的单元格，而且网格容器在放置子网格的时候会忽略定位网格。</p>
+</li>
+<li>
+<p>定位时使用auto的特殊情况。</p>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="参考资料">参考资料</h2>
+<hr>
+<ul>
+<li>
+<p><a href="https://css-tricks.com/snippets/css/complete-guide-grid/">Complete Guide to CSS Grid Layout</a></p>
+</li>
+<li>
+<p><a href="https://css-tricks.com/auto-sizing-columns-css-grid-auto-fill-vs-auto-fit/">auto-fill VS auto-fit</a></p>
+</li>
+<li>
+<p><a href="https://blogs.igalia.com/mrego/2016/05/27/css-grid-layout-and-positioned-items/">grid &amp; absolute</a></p>
+</li>
+<li>
+<p><a href="https://gridbyexample.com/learn/">Grid by Example</a></p>
+</li>
+</ul>
+<!-- ---
+## TODO: 
+---
+
+- 有关书写模式的相关内容 -->
+<!-- [综合示例]: https://codepen.io/2256184693/pen/KGKNyb -->
+<!-- [隐式网格]: https://codepen.io/2256184693/pen/LgERpB -->
+<!-- [特殊使用示例_区别于flex]: https://codepen.io/2256184693/pen/XxJMjz -->
+<!-- [结合定位元素]: https://codepen.io/2256184693/pen/vVEQBZ -->
+<!-- [网格线使用]: https://codepen.io/2256184693/pen/ZqYVaJ -->
+<!-- [命名网格区域]: https://codepen.io/2256184693/pen/GYNRma -->
+<!-- [缩略等用法]: https://codepen.io/2256184693/pen/VEmJjx -->
+<!-- [有关定位]: https://codepen.io/2256184693/pen/bmBXOo -->
+<!-- [网格对齐]: https://codepen.io/2256184693/pen/zmNamG -->
+
+    </body>
+    </html>

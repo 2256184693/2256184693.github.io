@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>碰撞检测</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        #container{
+            width: 1200px;
+            min-height: 900px;
+            background: #eee;
+            position: relative;
+        }
+        .item{
+            position: absolute;
+            transition: all 200ms ease;
+            transition-property: transform;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+
+    </div>
+    <script>
+        const radio = 12;
+        const height = 100;
+        const $el = document.getElementById('container');
+
+        /**
+         * x y  左上角栅格坐标   w h 元素栅格化宽高
+         **/
+        class Item {
+            constructor(options) {
+                this.x = options.x;
+                this.y = options.y;
+                this.w = options.w;
+                this.h = options.h;
+                this.i = options.i;
+                this.layout = {
+                    x: this.x,
+                    y: this.y,
+                    w: this.w,
+                    h: this.h,
+                    i: this.i,
+                };
+                this.mount();
+            }
+            mount() {
+                let div = document.createElement('div');
+                div.className = 'item';
+                div.style.transform = `translate(${this.x * 100}px, ${this.y * 100}px)`;
+                div.style.width = this.w * 100 + 'px';
+                div.style.height = this.h * height + 'px';
+                div.style.backgroundColor = 'rgba(' + Math.random() * 255 + ', ' + Math.random() * 255 + ', ' + Math.random() * 255 + ', 1)';
+                div.innerText = this.i;
+                $el.appendChild(div);
+            }
+        }
+
+        class Tree {
+            constructor(children) {
+                this.children = children;
+                this.layout = children.map(child => child.layout);
+            }
+            clone(lay) {
+                return Object.assign({}, lay);
+            }
+            collide(l1, l2) {
+                if(l1.x >= l2.x + l2.w) return false; // l1在l2右边
+                if(l2.x >= l1.x + l1.w) return false; // l1在l2左边
+                if(l1.y >= l2.y + l2.h) return false; // l1在l2下边
+                if(l2.y >= l1.y + l1.h) return false; // l1在l2上边
+                return true;
+            }
+            sortLayout(layout) {
+                return layout.slice().sort((a, b) => {
+                    if(b. y > a. y || (a.y === b.y && b.x > a.x) ) {
+                        return 1;
+                    }
+                    return -1;
+                })
+            }
+            initLayout() {
+                this.compactLayout(this.layout);
+            }
+            compactLayout(layout) {
+                let sortedLayout = this.sortLayout(layout);
+                let l = sortedLayout.length;
+                let compactedLayout = [];
+                for(let i = 0; i < l; i++) {
+                    let lay = sortedLayout[i];
+                    lay = this.compactLayoutItem(compactedLayout, lay);
+                }
+            }
+            compactLayoutItem(staticLayout, lay) {
+                console.log(staticLayout, lay);
+                return lay;
+            }
+        }
+
+        const createItems = num => {
+            let arr = [];
+            for(let i = 0; i < num; i++) {
+                let x = (i * 2) % 12;
+                let y = Math.floor(Math.random() * 6);
+                let w = 2;
+                let h = Math.floor(Math.random() * 3) + 1;
+                let item = new Item({ x, y, w, h, i });
+                arr.push(item);
+            }
+            return arr;
+        }
+
+        let tree = new Tree(arr);
+
+        tree.initLayout(tree.layout);
+
+        [
+            {
+                type: 'row',
+
+                children: [],
+            }
+        ]
+
+
+    </script>
+</body>
+</html>

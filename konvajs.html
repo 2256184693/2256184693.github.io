@@ -45,7 +45,6 @@
             constructor({
                 stage,
                 layer,
-                dragLayer,
                 transformer
             }, options) {
                 super();
@@ -53,7 +52,6 @@
                 options.y = options.y || 0;
                 this.stage = stage;
                 this.layer = layer;
-                this.dragLayer = dragLayer;
                 this.transformer = transformer;
                 this.options = options;
                 this.createPlaceholder();
@@ -64,7 +62,6 @@
 
             draw() {
                 this.layer.draw();
-                this.dragLayer.draw();
             }
 
             createInner() {
@@ -143,9 +140,8 @@
         });
 
         var layer = new Konva.Layer();
-        const dragLayer = new Konva.Layer();
         // add the layer to the stage
-        stage.add(layer, dragLayer);
+        stage.add(layer);
 
         const transformer = new Konva.Transformer({
             rotateEnabled: false,
@@ -166,7 +162,6 @@
         var rect = new KonvaRect({
             stage,
             layer,
-            dragLayer,
             transformer
         }, {
             width: 300,
@@ -180,7 +175,6 @@
         var other = new KonvaRect({
             stage,
             layer,
-            dragLayer,
             transformer
         }, {
             width: 300,

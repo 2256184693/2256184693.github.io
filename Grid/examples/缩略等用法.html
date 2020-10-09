@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .item {
+            border-radius: 8px;
+            border: 2px solid #ff6701;
+            min-height: 30px;
+            text-align: center;
+            line-height: 30px;
+            background: #666;
+            /* word-break: break-all; */
+            color: #FFF;
+        }
+
+        .box {
+            display: grid;
+            /* grid-template: repeat(3, 100px) / repeat(3, 1fr); */
+            /* grid-template:  "a a a"
+                            "b b c"; */
+            /* grid-template: "a a a" 50px "b b c" 100px; */
+            grid-template:  [header-top] "a a a" 50px[header-bottom]
+                            [main-top] "b c d" 30px [main-bottom]
+                            [footer-top] "b c d" 100px [footer-bottom]
+                            / 1fr 1fr 1fr;
+        }
+        /* 命名 */
+        .item1{
+            grid-area: a;
+        }
+        .item2 {
+            grid-area: b;
+        }
+        .item3 {
+            grid-area: c;
+        }
+        .item4 {
+            grid-area: d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="item item1">item1</div>
+        <div class="item item2">item2</div>
+        <div class="item item3">item3</div>
+        <div class="item item4">item4</div>
+    </div>
+</body>
+
+</html>

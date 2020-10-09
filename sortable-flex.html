@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sortable + Flex</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        #container{
+            min-height: 900px;
+            background: #aaa;
+            position: relative;
+            background: repeating-linear-gradient(90deg, rgba(111, 111, 111, .3), transparent 16.666666%);
+        }
+        .config-box{
+            padding: 20px;
+            background: #1890fa;
+        }
+        .item{
+            height: 100px;
+            /* margin: 5px; */
+            line-height: 100px;
+            text-align: center;
+            display: inline-block;
+            background: #eee;
+            vertical-align: top;
+            position: relative;
+        }
+        .sortable-ghost{
+            border: 4px dashed rgba(0, 0, 0, .2);
+            box-sizing: border-box;
+        }
+        .row{
+            display: block;
+        }
+        .col-1{
+            width: 16.666666%;
+        }
+        .col-2{
+            width: 33.333333%;
+        }
+        .col-3{
+            width: 50.000000%;
+        }
+        .col-4{
+            width: 66.666666%;
+        }
+        .col-5{
+            width: 83.333333%;
+        }
+        .col-6{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="config-box">
+        <input type="number" id="input">
+        <button id="btn">增加一块</button>
+    </div>
+    <div id="container"></div>
+    <script src="lib/sortable@1.10.2.min.js"></script>
+    <script src="lib/resizable.js"></script>
+    <script>
+        const $container = document.getElementById('container');
+        let index = 1;
+        const baseCol = 100; // 动态算
+        const baseRow = 100;
+
+        const handleGridRect = ({ x, y, w, h }) => {
+
+        }
+        const createItem = (container, num) => {
+            let nodes = new Array(num).fill('').reduce((pre, cur, i) => {
+                let div = document.createElement('div');
+                div.className = 'item col col-' + Math.floor(Math.random() * 5 + 1);
+                new Resizable(div, {
+                    // anchors: ['left', 'top', 'right-bottom', 'bottom', 'right', 'right-top', 'left-top', 'left-bottom'],
+                    anchors: ['right-bottom', 'bottom', 'right'],
+                    // minWidth: 1 * baseCol,
+                    // maxWidth: 6 * baseCol,
+                    // minHeight: 1 * baseCol,
+                    // maxHeight: 1 * baseCol,
+
+                    // 栅格化参数
+                    flexRootEl: $container,
+                    grid: 6,
+                    col: { min: 1, max: 6 },
+                    row: { min: 1, max: 3 },
+                    resizestart: function(...args) {
+                        // console.log('resizestart', args);
+                    },
+                    resizing: function(...args) {
+                        // console.log('resizing', args);
+                    },
+                    resizeend: function(...args) {
+                        // console.log('resizeend', args);
+                    },
+                });
+                // div.innerText = (index++) + '';
+                div.style.backgroundColor = 'rgba(' + Math.random() * 255 + ', ' + Math.random() * 255 + ', ' + Math.random() * 255 + ', 1)';
+                return pre.concat(div);
+            }, []);
+            return nodes;
+        }
+
+        const createRow = () => {
+            let row = document.createElement('div');
+            row.className = 'row';
+            return row;
+        }
+
+        const append = (num) => {
+            let nodes = createItem($container, num);
+            let row = createRow();
+            row.append(...nodes);
+            new Sortable(row, {
+                group: 'row'
+            });
+            $container.append(row);
+        }
+        
+        document.getElementById('btn').onclick = function() {
+            let num = document.getElementById('input').value - 0 || 1;
+            append(num);
+        }
+
+        $container.onclick = function(evt) {
+            if(evt.target.className.indexOf('col') > -1) {
+                evt.stopPropagation();
+                if(evt.target.className.indexOf('active') === -1) {
+                    evt.target.className = evt.target.className + ' active';
+                }
+
+            } else {
+
+            }
+        }
+
+        /**
+         * 1. 拖动后空row remove
+         * 2. 原生拖拽排版 能否优化？
+         */
+
+        append(1);
+        // append(2);
+        // append(3);
+
+        new Sortable($container, {
+            onChoose: function(evt) {
+                console.log('onChoose', evt);
+            },
+            onStart: function(evt) {
+                console.log('onStart', evt);
+            },
+            onMove: function(evt) {
+                console.log('onMove', evt);
+            },
+            onChange: function(evt) {
+                console.log('onChange', evt);
+            },
+            onUpdate: function(evt) {
+                console.log('onUpdate', evt);
+            },
+            onSort: function(evt) {
+                console.log('onSort', evt);
+            },
+            onClone: function(evt) {
+                console.log('onClone', evt);
+            },
+        });
+        
+        </script>
+</body>
+</html>

@@ -6,16 +6,15 @@
     <title>Test-Js</title>
 </head>
 <body>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
     <script>
-        var oBoxs = document.getElementsByClassName('box')
-        console.log('盒子', oBoxs);
-        for (var i = 0; i < oBoxs.length; i++) {
-            console.log(`第${i}次循环, 数组长度 ${oBoxs.length}`);
-            oBoxs[i].className = 'container'
-        }
+        var str = `a,b,c,d,e
+        aaa,asd,"sads
+        asdasd","asdasd
+        asdasd
+        asdasd",asdad`;
+        console.log('str', str);
+        var arr = str.split('\n')
+        console.log('arr', arr);
     </script>
 </body>
 </html>

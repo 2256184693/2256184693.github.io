@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .item {
+            border-radius: 8px;
+            border: 2px solid #ff6701;
+            min-height: 30px;
+            text-align: center;
+            line-height: 30px;
+            background: #666;
+            color: #FFF;
+        }
+
+        .flex-box {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .flex-box .item {
+            flex: 1 1 200px;
+        }
+
+        .auto-box {
+            margin-top: 30px;
+            width: 100%;
+            display: grid;
+            /* grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(6, minmax(200px, 1fr)); */
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        }
+
+        .auto-box.fit {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+        //- 与flex的区别
+        //- 实现类似弹性盒的效果
+     -->
+    <div class="flex-box">
+        <div class="item">flex-item1</div>
+        <div class="item">flex-item2</div>
+        <div class="item">flex-item3</div>
+        <div class="item">flex-item4</div>
+        <div class="item">flex-item5</div>
+        <div class="item">flex-item6</div>
+        <div class="item">flex-item7</div>
+        <div class="item">flex-item8</div>
+    </div>
+    <div class="auto-box">
+        <div class="item">auto-fill-item1</div>
+        <div class="item">auto-fill-item2</div>
+        <div class="item">auto-fill-item3</div>
+        <div class="item">auto-fill-item4</div>
+        <div class="item">auto-fill-item5</div>
+        <div class="item">auto-fill-item6</div>
+        <div class="item">auto-fill-item7</div>
+        <div class="item">auto-fill-item8</div>
+    </div>
+    <div class="auto-box fit">
+        <div class="item">auto-fit-item1</div>
+        <div class="item">auto-fit-item2</div>
+        <div class="item">auto-fit-item3</div>
+        <div class="item">auto-fit-item4</div>
+        <div class="item">auto-fit-item5</div>
+        <div class="item">auto-fit-item6</div>
+        <div class="item">auto-fit-item7</div>
+        <div class="item">auto-fit-item8</div>
+    </div>
+</body>
+
+</html>
