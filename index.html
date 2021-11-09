@@ -7,20 +7,36 @@
     <title>前端小屋</title>
     <style>
         html, body{
+            padding: 0;
+            margin: 0;
             width: 100%;
             height: 100%;
+            overflow: hidden;
         }
         body{
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
         .title{
             font-size: 42px;
         }
+        .fork {
+            position: absolute;
+            right: 0;
+            top: 0;
+            transform: rotate(90deg);
+        }
     </style>
 </head>
 <body>
-    <h3 class="title">Welcome!</h3>
+    <a href="https://github.com/2256184693" class="fork">
+        <img src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub">
+    </a>
+    
+    <div>
+        <h3 class="title">Welcome to my homepage!</h3>
+    </div>
 </body>
 </html>
