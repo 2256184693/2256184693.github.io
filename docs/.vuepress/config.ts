@@ -1,6 +1,7 @@
 // import { path } from '@vuepress/utils';
 import { defineUserConfig } from 'vuepress';
 import type { DefaultThemeOptions } from 'vuepress';
+import sidebar from './config/sidebar';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -84,18 +85,7 @@ export default defineUserConfig<DefaultThemeOptions>({
         link: 'https://github.com/2256184693',
       },
     ],
-    sidebar: {
-      '/pages/fe/css': [
-        {
-          text: 'CSS',
-          children: [
-            '/pages/fe/css/grid.md',
-            '/pages/fe/css/flex.md',
-            '/pages/fe/css/animation.md',
-          ],
-        },
-      ],
-    },
+    sidebar: sidebar,
     editLinkText: '编辑此页',
     lastUpdatedText: '上次更新',
     contributorsText: '贡献者',
