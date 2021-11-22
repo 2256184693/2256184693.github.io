@@ -1,13 +1,9 @@
 <template lang="html">
-    <div class="common-layout">
-        <Content />
-    </div>
+  <div class="common-layout">
+    <Content />
+  </div>
 </template>
 <script>
-export default {
-    
-}
+export default {};
 </script>
-<style lang="scss">
-    
-</style>
+<style lang="scss"></style>

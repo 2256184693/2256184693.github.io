@@ -33,10 +33,24 @@ export const getDirFiles = (
 export const relativeForPress = (pathname: string): string =>
   '/' + relativePath(path.resolve(__dirname, '../../'), pathname);
 
-export const parseMarkdownName = (mdName: string) => {
+export type MarkdownNameInfo = {
+  /**
+   * 排序时的位置
+   */
+  sortIndex: number;
+  /**
+   * 英文名称
+   */
+  ename: string;
+  /**
+   * 中文名称
+   */
+  cname: string;
+};
+export const parseMarkdownName = (mdName: string): MarkdownNameInfo => {
   const [sortIndex, cname, ename] = mdName.split('.');
   return {
-    sortIndex,
+    sortIndex: parseInt(sortIndex),
     ename,
     cname: cname.replace(/^\w/, (s) => s.toUpperCase()),
   };
