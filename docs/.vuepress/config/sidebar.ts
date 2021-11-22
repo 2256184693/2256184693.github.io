@@ -1,24 +1,10 @@
-import type { SidebarItem } from '@vuepress/theme-default';
 import { path } from '@vuepress/utils';
-import {
-  getDirFiles,
-  parseMarkdownName,
-  relativeForPress,
-} from '../utils/filehelper';
+import { getDirFiles, relativeForPress } from '../utils/filehelper';
 
-const getSidebar = (pathname: string): SidebarItem[] => {
+const getSidebar = (pathname: string) => {
   const files = getDirFiles(path.resolve(__dirname, pathname), /.md$/);
 
-  return files.map((file) => {
-    const fileInfo = path.parse(file);
-
-    const fileNameInfo = parseMarkdownName(fileInfo.name);
-
-    return {
-      text: fileNameInfo.cname,
-      link: relativeForPress(file),
-    };
-  });
+  return files.map((file) => relativeForPress(file));
 };
 
 const createSidebar = (pathname: string, name: string) => {
@@ -34,7 +20,6 @@ const createSidebar = (pathname: string, name: string) => {
       },
     ],
   };
-  console.log(JSON.stringify(curSidebar));
   return curSidebar;
 };
 
