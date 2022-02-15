@@ -55,6 +55,12 @@ module.exports = {
         'import/no-extraneous-dependencies': 'off',
       },
     },
+    {
+      files: ['leeCode/**'],
+      rules: {
+        'no-unused-vars': 'off',
+      },
+    },
   ],
   rules: {
     'prettier/prettier': ['error', { singleQuote: true }],
