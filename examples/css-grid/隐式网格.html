@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .grid {
+            display: inline-grid;
+            grid-template-columns: repeat(6, 100px);
+            grid-template-rows: 100px 100px;
+            grid-gap: 20px;
+            /* grid-auto-rows: minmax(50px, min-content); */
+            /* grid-auto-columns: 50px; */
+            border: 3px solid #ccc;
+        }
+
+        .item {
+            background: rgba(0, 0, 0, 0.5);;
+        }
+
+        .item:first-child {
+            grid-column-start: 5;
+        }
+
+        .item:nth-child(2) {
+            grid-row-start: 4;
+        }
+
+        .item:nth-child(3) {
+            grid-row-start: 4;
+        }
+
+        .item:nth-child(4) {
+            grid-column-start: -1;
+            grid-area: -3 / -1;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 隐式网格及隐式网格的规格 -->
+    <!-- 负数代表的含义 -->
+    <section class="grid">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3网格有很长的内容啊哈哈哈哈哈哈哈哈哈哈哈哈item3网格有很长的内容啊哈哈哈哈哈哈哈哈哈哈哈哈</div>
+        <div class="item">item4</div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KonvaJs</title>
+    <style>
+        #container{
+            background: repeating-linear-gradient(90deg, rgba(111, 111, 111, .3), transparent 300px);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+
+    </div>
+    <script src="./lib/konva@6.0.0.min.js"></script>
+    <script>
+        class KonvaBase {
+            constructor() {
+                this.base = 300;
+            }
+            getPlaceholderPosition(pos) {
+                let base = this.base;
+                let l = Math.floor(pos.x / base);
+                let isL = pos.x < (l * base + base / 2);
+                let t = Math.floor(pos.y / base);
+                let isT = pos.y < (t * base + base / 2);
+                return {
+                    x: isL ? l * base : (l + 1) * base,
+                    y: isT ? t * base : (t + 1) * base,
+                };
+            }
+            adjust(num) {
+                let base = this.base;
+                let radio = Math.floor(num / base);
+                let isUp = num > (radio * base + base / 2);
+                return isUp ? (radio + 1) * base : radio * base;
+            }
+        }
+
+        class KonvaRect extends KonvaBase {
+            constructor({
+                stage,
+                layer,
+                transformer
+            }, options) {
+                super();
+                options.x = options.y || 0;
+                options.y = options.y || 0;
+                this.stage = stage;
+                this.layer = layer;
+                this.transformer = transformer;
+                this.options = options;
+                this.createPlaceholder();
+                this.createInner();
+                this.bindEvents();
+                this.mounted();
+            }
+
+            draw() {
+                this.layer.draw();
+            }
+
+            createInner() {
+                this.inner = new Konva.Rect(this.options);
+                this.layer.add(this.inner);
+            }
+
+            createPlaceholder() {
+                let options = {
+                    ...this.options,
+
+                    fill: 'gray',
+                }
+                this.placeholderOptions = options;
+                this.placeholder = new Konva.Rect(options);
+                this.layer.add(this.placeholder);
+            }
+
+            bindEvents() {
+                let _this = this;
+                this.inner.on('dragstart', function() {
+                    _this.inner.zIndex(2001);
+                    _this.stage.draw();
+                });
+                this.inner.on('dragmove', function() {
+                    let pos = this.absolutePosition();
+                    let { x, y } = pos;
+                    let _pos = _this.getPlaceholderPosition(pos);
+
+                    if(_pos.x !== _this.placeholderOptions.x || _pos.y !== _this.placeholderOptions.y) {
+                        _this.placeholderOptions.x = _pos.x;
+                        _this.placeholderOptions.y = _pos.y;
+                        _this.placeholder.to({ x: _pos.x, y: _pos.y, duration: .1 });
+                        _this.draw();
+                    }
+                });
+                this.inner.on('dragend', function() {
+                    _this.inner.to({ 
+                        x: _this.placeholderOptions.x,
+                        y: _this.placeholderOptions.y,
+                        duration: .2,
+                    });
+                    _this.stage.draw();
+                });
+                this.inner.on('click', function() {
+                    _this.transformer.nodes([_this.inner]);
+                    _this.draw();
+                });
+                this.inner.on('transform', function() {
+                    _this.placeholder.width(_this.adjust(this.scaleX() * this.width()));
+                    _this.placeholder.height(_this.adjust(this.scaleY() * this.height()));
+                });
+                this.inner.on('transformend', function() {
+                    console.log('transform end', _this.placeholder.width(), _this.placeholder.height());
+                    this.to({
+                        width: _this.placeholder.width(),
+                        height: _this.placeholder.height(),
+                        scaleX: 1,
+                        scaleY: 1,
+                        duration: .1
+                    });
+                    _this.draw();
+                });
+            }
+
+            mounted() {
+                this.draw();
+            }
+        }
+        
+        // first we need to create a stage
+        var stage = new Konva.Stage({
+            container: 'container', // id of container <div>
+            width: 1800,
+            height: 900
+        });
+
+        var layer = new Konva.Layer();
+        // add the layer to the stage
+        stage.add(layer);
+
+        const transformer = new Konva.Transformer({
+            rotateEnabled: false,
+            enabledAnchors: ['bottom-right'],
+            keepRatio: false,
+            boundBoxFunc: function(oldBox, newBox) {
+                // console.log(oldBox, newBox);
+                if(newBox.width < 0) {
+                    return oldBox;
+                }
+                return newBox;
+            }
+        });
+        transformer.zIndex(5001);
+
+        layer.add(transformer);
+
+        var rect = new KonvaRect({
+            stage,
+            layer,
+            transformer
+        }, {
+            width: 300,
+            height: 300,
+            fill: '#ff6701',
+            stroke: 'black',
+            strokeWidth: 0,
+            draggable: true,
+        });
+
+        var other = new KonvaRect({
+            stage,
+            layer,
+            transformer
+        }, {
+            width: 300,
+            height: 300,
+            fill: 'red',
+            stroke: 'black',
+            strokeWidth: 0,
+            draggable: true,
+            x: 300,
+            y: 300
+        });
+
+        // layer.draw();
+        
+    </script>
+</body>
+
+</html>

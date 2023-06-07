@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .item {
+            border-radius: 8px;
+            border: 2px solid #ff6701;
+            text-align: center;
+            background: #666;
+            color: #FFF;
+            line-height: 50px;
+        }
+
+        .grid-absolute-box {
+            padding: 100px;
+            border: 1px solid red;
+            display: grid;
+            grid-template-rows: 200px 200px;
+            grid-template-columns: 1fr 1fr;
+            grid-auto-columns: 50px 50px;
+            grid-auto-rows: 50px;
+            position: relative;
+            grid-gap: 20px;
+
+        }
+
+        .grid-absolute-box .abs {
+            overflow: hidden;
+            position: absolute;
+            z-index: 1;
+            /* width: 100%;
+            height: 100%; */
+            border: 2px solid #1890af;
+            background: rgba(24, 144, 175, .2)
+        }
+
+        .abs1 {
+            grid-column: 1;
+            grid-row-start: 2;
+        }
+
+        .item6 {
+            grid-row: 4;
+            grid-column: 1;
+        }
+
+        .abs2 {
+            grid-row: 4;
+            grid-column: 1;
+        }
+
+        .abs3 {
+            grid-row: 1 / 2;
+            grid-column: auto / 1;
+        }
+
+        .abs4 {
+            grid-row: 2 / auto;
+            grid-column: 2 / auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 普通定位 结合 left 和 top -->
+    <!-- 隐式轨道时的定位 -->
+    <!-- 异常编号以及auto的处理 -->
+    <div class="grid-absolute-box">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <!-- <div class="item abs abs1">我是一个绝对定位元素item5 abs1</div> -->
+
+        <div class="item item6">item6</div>
+        <div class="item abs abs2">我是一个绝对定位元素item7 abs2</div>
+
+        <div class="item abs abs3">我是一个绝对定位元素item8 abs3</div>
+        <div class="item abs abs4">我是一个绝对定位元素item9 abs4</div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .item {
+            border-radius: 8px;
+            border: 2px solid #ff6701;
+            min-height: 30px;
+            text-align: center;
+            line-height: 30px;
+            background: #666;
+            color: #FFF;
+        }
+
+        .header {
+            grid-area: hd;
+        }
+
+        .left {
+            grid-area: left;
+        }
+
+        .content {
+            grid-area: content;
+        }
+
+        .footer {
+            grid-area: footer;
+        }
+
+        @media (min-width: 800px) {
+            .container {
+                display: grid;
+                grid-auto-rows: 50px;
+                grid-template-areas:
+                    "hd . . . . . . ."
+                    "left left content content content content content content"
+                    "left left footer footer footer footer footer footer";
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .container {
+                width: 1280px;
+                margin-left: auto;
+                margin-right: auto;
+                display: grid;
+                grid-auto-rows: 50px;
+                grid-template-areas:
+                    "hd . . . . . ."
+                    "left left left content content content content content"
+                    "footer footer footer footer footer footer footer footer";
+            }
+        }
+
+        .name-area {
+            grid-row-start: hd-start;
+            grid-row-end: footer-end;
+            grid-column-start: content-start;
+            grid-column-end: footer-end;
+            z-index: 20;
+            background: rgba(92, 148, 13, .4);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+        //- 网格单元格命名定位
+        //- 结合媒体查询案例
+        //- 定义网格区域后隐式定义网格线
+     -->
+    <div class="container">
+        <div class="item header">header</div>
+        <div class="item left">left</div>
+        <div class="item content">content</div>
+        <div class="item footer">footer</div>
+        <div class="name-area">name-area</div>
+    </div>
+</body>
+
+</html>
